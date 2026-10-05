@@ -1,11 +1,12 @@
-using System;
-using System.IO;
-
 public class FileWatcher
 {
-    using var watcher = new FileSystemWatcher(@"C:\path\to\folder");
+    public FileSystemWatcher watcher; 
 
-            watcher.NotifyFilter = NotifyFilters.Attributes
+    public FileWatcher()
+    {
+        watcher = new FileSystemWatcher(@"C:\Users\User\Downloads\alert-simulator\alert-simulator\alerts");
+
+        watcher.NotifyFilter = NotifyFilters.Attributes
                                  | NotifyFilters.CreationTime
                                  | NotifyFilters.DirectoryName
                                  | NotifyFilters.FileName
@@ -13,22 +14,23 @@ public class FileWatcher
                                  | NotifyFilters.LastWrite
                                  | NotifyFilters.Security
                                  | NotifyFilters.Size;
-
-            watcher.Changed += OnChanged;
+    }
+    public void Watch()
+    {
+        watcher.Changed += OnChanged;
             watcher.Created += OnCreated;
             watcher.Deleted += OnDeleted;
             watcher.Renamed += OnRenamed;
             watcher.Error += OnError;
 
-            watcher.Filter = "*.txt";
+            watcher.Filter = "*.ready";
             watcher.IncludeSubdirectories = true;
             watcher.EnableRaisingEvents = true;
 
             Console.WriteLine("Press enter to exit.");
             Console.ReadLine();
-        }
-
-        private static void OnChanged(object sender, FileSystemEventArgs e)
+    }
+    private static void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed)
             {
