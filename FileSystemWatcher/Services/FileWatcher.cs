@@ -19,9 +19,9 @@ public class FileWatcher
     {
         watcher.Changed += OnChanged;
             watcher.Created += OnCreated;
-            watcher.Deleted += OnDeleted;
-            watcher.Renamed += OnRenamed;
-            watcher.Error += OnError;
+            // watcher.Deleted += OnDeleted;
+            // watcher.Renamed += OnRenamed;
+            // watcher.Error += OnError;
 
             watcher.Filter = "*.ready";
             watcher.IncludeSubdirectories = true;
@@ -45,28 +45,28 @@ public class FileWatcher
             Console.WriteLine(value);
         }
 
-        private static void OnDeleted(object sender, FileSystemEventArgs e) =>
-            Console.WriteLine($"Deleted: {e.FullPath}");
+        // private static void OnDeleted(object sender, FileSystemEventArgs e) =>
+        //     Console.WriteLine($"Deleted: {e.FullPath}");
 
-        private static void OnRenamed(object sender, RenamedEventArgs e)
-        {
-            Console.WriteLine($"Renamed:");
-            Console.WriteLine($"    Old: {e.OldFullPath}");
-            Console.WriteLine($"    New: {e.FullPath}");
-        }
+        // private static void OnRenamed(object sender, RenamedEventArgs e)
+        // {
+        //     Console.WriteLine($"Renamed:");
+        //     Console.WriteLine($"    Old: {e.OldFullPath}");
+        //     Console.WriteLine($"    New: {e.FullPath}");
+        // }
 
-        private static void OnError(object sender, ErrorEventArgs e) =>
-            PrintException(e.GetException());
+        // private static void OnError(object sender, ErrorEventArgs e) =>
+        //     PrintException(e.GetException());
 
-        private static void PrintException(Exception? ex)
-        {
-            if (ex != null)
-            {
-                Console.WriteLine($"Message: {ex.Message}");
-                Console.WriteLine("Stacktrace:");
-                Console.WriteLine(ex.StackTrace);
-                Console.WriteLine();
-                PrintException(ex.InnerException);
-            }
-        }
+        // private static void PrintException(Exception? ex)
+        // {
+        //     if (ex != null)
+        //     {
+        //         Console.WriteLine($"Message: {ex.Message}");
+        //         Console.WriteLine("Stacktrace:");
+        //         Console.WriteLine(ex.StackTrace);
+        //         Console.WriteLine();
+        //         PrintException(ex.InnerException);
+        //     }
+        // }
 }

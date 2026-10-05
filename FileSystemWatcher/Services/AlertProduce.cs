@@ -11,5 +11,17 @@ public class AlertProduce
         };
         _producer = new ProducerBuilder<string, string>(config).Build();
     }
-    
+    public void Produce(string topic, string text)
+    {
+        var message = new Message<string, string>
+        {
+            Value = text
+        };
+        _producer.Produce(topic, message);
+    }
+    public void Dispose()
+    {
+        _producer.Flush(TimeSpan.FromSeconds(10));
+        _producer.Dispose();
+    }
 }

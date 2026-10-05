@@ -20,6 +20,14 @@ namespace MyNamespace
 
             files = Directory.GetFiles(@"C:\Users\User\Downloads\alert-simulator\alert-simulator\alerts", @"*.json", SearchOption.AllDirectories);
 
+            AlertProduce alertProduce = new AlertProduce();
+            
+            foreach (string file in files)
+            {
+                alertProduce.Produce("b", File.ReadAllText(file));
+            }
+
+            alertProduce.Dispose();
         }
     }
 }
