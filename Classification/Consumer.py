@@ -1,11 +1,11 @@
 from confluent_kafka import Consumer
-from confluent_kafka import KafkaException
 import json
+import GeoClasification
+import RabbitPublish
 
 conf = {'bootstrap.servers': 'localhost',
-        'group.id': 'v',
+        'group.id': 'bbbbbbb',
         'auto.offset.reset': 'earliest'}
-
 consumer = Consumer(conf)
 consumer.subscribe(["b"])
 
@@ -16,36 +16,13 @@ while running:
     msg = consumer.poll(timeout=10)
     if msg == None:
         break
-
+    # msg = json.dumps(msg.value().decode("utf-8"))
+    try:
+        msg = json.loads(msg.value())
+    except:
+        continue
+    # print(msg)
     consume_list.append(msg)
 print(len(consume_list))
-# print(json.dumps(msg.value()))
 
-# running = True
-# consume_list = []
-
-# def basic_consume_loop(consumer, topics):
-#     try:
-#         consumer.subscribe("b")
-
-#         while running:
-#             msg = consumer.poll(timeout=10)
-#             print(msg)
-#             if msg is None: continue
-
-#             if msg.error():
-#                 raise KafkaException(msg.error())
-#             else:
-#                 msg_process(msg)
-#     finally:
-#         # Close down consumer to commit final offsets.
-#         consumer.close()
-
-# def shutdown():
-#     global running
-#     running = False
-
-# def msg_process(msg):
-#     consume_list.append(msg)
-#     # print(msg)
-# print(len(consume_list))
+RabbitPublish.publish_by_region(consume_list)

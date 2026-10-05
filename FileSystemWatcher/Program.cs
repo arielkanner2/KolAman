@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 
 namespace MyNamespace
 {
@@ -24,6 +25,7 @@ namespace MyNamespace
             
             foreach (string file in files)
             {
+                // var c = JsonSerializer.Deserialize<Alert>(File.ReadAllText(file));
                 alertProduce.Produce("b", File.ReadAllText(file));
             }
 

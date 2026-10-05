@@ -1,3 +1,5 @@
+using System.Text;
+using System.Text.Json;
 using Confluent.Kafka;
 
 public class AlertProduce
