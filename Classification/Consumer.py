@@ -4,7 +4,7 @@ import GeoClasification
 import RabbitPublish
 
 conf = {'bootstrap.servers': 'localhost',
-        'group.id': 'bbbbbbb',
+        'group.id': 'bbnnnnn',
         'auto.offset.reset': 'earliest'}
 consumer = Consumer(conf)
 consumer.subscribe(["b"])

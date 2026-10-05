@@ -16,17 +16,7 @@ def publish_by_region(alerts_list):
                                         routing_key=name,
                                         body=json.dumps(alert)) 
         except:
-            print("------------")
             continue
 
     connection.close()                    
                     
-        # try:
-        #     routing_k = GeoClasification.get_region_with_geopandas("regions.geojson", alert["lon"], alert["lat"])
-             
-        #     channel.basic_publish(exchange='',
-        #                         routing_key=routing_k,
-        #                         body=json.dumps(alert))
-        # except:
-        #     print("------------")
-        #     continue
