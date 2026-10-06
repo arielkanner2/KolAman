@@ -12,6 +12,7 @@ consumer.subscribe(["ALERTS"])
 
 consume_list = []
 
+
 center_list = []
 south_list = []
 north_list = []
