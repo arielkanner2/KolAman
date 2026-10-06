@@ -2,9 +2,10 @@ from confluent_kafka import Consumer
 import json
 import GeoClasification
 import RabbitPublish
+from Validation import alert_validation
 
 conf = {'bootstrap.servers': 'localhost',
-        'group.id': 'bbnnnnn',
+        'group.id': 'bbm',
         'auto.offset.reset': 'earliest'}
 consumer = Consumer(conf)
 consumer.subscribe(["b"])
@@ -23,6 +24,10 @@ while running:
         continue
     # print(msg)
     consume_list.append(msg)
+print(len(consume_list))
+# print(type(consume_list[5]["lon"]))
+
+consume_list = alert_validation(consume_list)
 print(len(consume_list))
 
 RabbitPublish.publish_by_region(consume_list)
