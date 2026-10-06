@@ -55,15 +55,19 @@
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Threading.Channels;
 
 public class RabbitConsumer
 {
-    public async Task ConsumeQueue()
+    public async Task<List<Alert>> ConsumeQueue(string queueName)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
         using var connection = await factory.CreateConnectionAsync();
         using var channel = await connection.CreateChannelAsync();
+        var consumeList = new List<string>();
+        List<Alert> alertsList = new List<Alert>();
 
         await channel.ExchangeDeclareAsync(exchange: "logs",
         type: ExchangeType.Fanout);
@@ -72,7 +76,7 @@ public class RabbitConsumer
         // QueueDeclareOk queueDeclareResult = await channel.QueueDeclareAsync();
         // string queueName = queueDeclareResult.QueueName;
         // await channel.QueueBindAsync(queue: queueName, exchange: "logs", routingKey: string.Empty);
-        await channel.QueueBindAsync(queue: "alerts2", exchange: "logs", routingKey: "CENTER");
+        await channel.QueueBindAsync(queue: queueName, exchange: "logs", routingKey: "");
 
         Console.WriteLine(" [*] Waiting for logs.");
 
@@ -81,14 +85,22 @@ public class RabbitConsumer
         {
             byte[] body = ea.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($" [x] {message}");
+            // Console.WriteLine($" [x] {message}");
+            consumeList.Add(message);
+            System.Console.WriteLine(consumeList.Count());
             return Task.CompletedTask;
         };
 
-        await channel.BasicConsumeAsync("alerts2", autoAck: true, consumer: consumer);
-
+        await channel.BasicConsumeAsync(queueName, autoAck: true, consumer: consumer);
+        
         Console.WriteLine(" Press [enter] to exit.");
         Console.ReadLine();
+        System.Console.WriteLine(consumeList.Count());
+        foreach (string rabbitMessage in consumeList)
+        {
+            alertsList.Add(JsonSerializer.Deserialize<Alert>(rabbitMessage));
+        }
+
+        return alertsList;
     }
-    
 }
