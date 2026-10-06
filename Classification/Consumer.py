@@ -5,10 +5,10 @@ import RabbitPublish
 from Validation import alert_validation
 
 conf = {'bootstrap.servers': 'localhost',
-        'group.id': 'vAx,sscsaa',
+        'group.id': 'g',
         'auto.offset.reset': 'earliest'}
 consumer = Consumer(conf)
-consumer.subscribe(["b"])
+consumer.subscribe(["ALERTS"])
 
 consume_list = []
 

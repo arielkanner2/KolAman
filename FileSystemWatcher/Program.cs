@@ -26,7 +26,7 @@ namespace MyNamespace
             foreach (string file in files)
             {
                 // var c = JsonSerializer.Deserialize<Alert>(File.ReadAllText(file));
-                alertProduce.Produce("b", File.ReadAllText(file));
+                alertProduce.Produce("ALERTS", File.ReadAllText(file));
             }
 
             alertProduce.Dispose();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 public class AmanRepo : IAmanRepo
@@ -10,5 +11,9 @@ public class AmanRepo : IAmanRepo
     public async Task<List<Alert>> GetAll()
     {
         return await _context.Alert.ToListAsync();
+    }
+    public async Task<IEnumerable<IGrouping<string, Alert>>> GetByPriority()
+    {
+        return await _context.Alert.GroupBy(a => a.priority).ToListAsync();
     }
 }

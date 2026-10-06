@@ -15,6 +15,13 @@ public class AmanController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<Alert>>> GetAll()
     {
-        return await _repository.GetAll();
+        // System.Console.WriteLine(await _repository.GetByPriority());
+        return Ok(await _repository.GetAll());
     }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<IGrouping<string, Alert>>>> GetByPriority()
+    {
+        return Ok(await _repository.GetAll());
+    }
+    
 }
